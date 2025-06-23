@@ -101,9 +101,13 @@ public class ShapeClickingGame extends JFrame {
         // Add one target shape
         shapeList.add(targetShapeType);
         
-        // Add other random shapes
+        // Add other random shapes (not the target shape)
         for (int i = 1; i < SHAPES_COUNT; i++) {
-            shapeList.add(shapeTypes[random.nextInt(shapeTypes.length)]);
+            ShapeType randomType;
+            do {
+            randomType = shapeTypes[random.nextInt(shapeTypes.length)];
+            } while (randomType == targetShapeType);
+            shapeList.add(randomType);
         }
         
         // Shuffle the list
