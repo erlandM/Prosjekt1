@@ -14,10 +14,11 @@ public class ShapeClickingGame extends JFrame {
     private List<Shape> shapes;
     private String targetShape;
     private int score;
+    private int round;
     private long startTime;
     private final Random random;
     private final int SHAPES_COUNT = 8;
-    private final int TARGET_SCORE = 5;
+    private final int TOTAL_ROUNDS = 5;
     
     // Shape types
     private enum ShapeType {
@@ -48,7 +49,7 @@ public class ShapeClickingGame extends JFrame {
         instructionLabel.setFont(new Font("Arial", Font.BOLD, 24));
         instructionLabel.setForeground(Color.BLUE);
         
-        scoreLabel = new JLabel("Score: 0/" + TARGET_SCORE, JLabel.CENTER);
+        scoreLabel = new JLabel("Score: 0/" + TOTAL_ROUNDS, JLabel.CENTER);
         scoreLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         
         topPanel.add(instructionLabel, BorderLayout.CENTER);
@@ -144,9 +145,10 @@ public class ShapeClickingGame extends JFrame {
             if (shape.contains(clickX, clickY)) {
                 if (shape.type.toString().equals(targetShape)) {
                     score++;
-                    scoreLabel.setText("Score: " + score + "/" + TARGET_SCORE);
+                    round++;
+                    scoreLabel.setText("Score: " + score + "/" + TOTAL_ROUNDS);
                     
-                    if (score >= TARGET_SCORE) {
+                    if (round >= TOTAL_ROUNDS) {
                         endGame();
                         return;
                     }
@@ -156,7 +158,7 @@ public class ShapeClickingGame extends JFrame {
                     // Wrong shape - visual feedback
                     shape.color = Color.RED;
                     gamePanel.repaint();
-                    
+                    round++;
                     startNewRound();
                 }
                 break;
@@ -182,8 +184,9 @@ public class ShapeClickingGame extends JFrame {
         if (choice == JOptionPane.YES_OPTION) {
             // Reset game
             score = 0;
+            round = 0;
             startTime = System.currentTimeMillis();
-            scoreLabel.setText("Score: 0/" + TARGET_SCORE);
+            scoreLabel.setText("Score: 0/" + TOTAL_ROUNDS);
             startNewRound();
         } else {
             System.exit(0);
