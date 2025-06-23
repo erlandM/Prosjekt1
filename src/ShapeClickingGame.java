@@ -139,18 +139,20 @@ public class ShapeClickingGame extends JFrame {
     }
     
     private void handleClick(int clickX, int clickY) {
+        boolean shapeClicked = false;
         for (Shape shape : shapes) {
             if (shape.contains(clickX, clickY)) {
+                shapeClicked = true;
                 if (shape.type.toString().equals(targetShape)) {
                     score++;
                     round++;
                     scoreLabel.setText("Score: " + score + "/" + TOTAL_ROUNDS);
-                    
+
                     if (round >= TOTAL_ROUNDS) {
                         endGame();
                         return;
                     }
-                    
+
                     startNewRound();
                 } else {
                     // Wrong shape clicked
@@ -163,6 +165,15 @@ public class ShapeClickingGame extends JFrame {
                 }
                 break;
             }
+        }
+        // If no shape was clicked, treat as background click
+        if (!shapeClicked) {
+            round++;
+            if (round >= TOTAL_ROUNDS) {
+                endGame();
+                return;
+            }
+            startNewRound();
         }
     }
     
