@@ -17,7 +17,7 @@ public class ShapeClickingGame extends JFrame {
     private String targetShape;
     private int score;
     private long startTime;
-    private Random random;
+    private final Random random;
     private final int SHAPES_COUNT = 8;
     private final int TARGET_SCORE = 5;
     
@@ -149,18 +149,13 @@ public class ShapeClickingGame extends JFrame {
                         return;
                     }
                     
-                    // Start new round after short delay
-                    Timer timer = new Timer(500, e -> startNewRound());
-                    timer.setRepeats(false);
-                    timer.start();
+                    startNewRound();
                 } else {
                     // Wrong shape - visual feedback
                     shape.color = Color.RED;
                     gamePanel.repaint();
                     
-                    Timer timer = new Timer(300, e -> startNewRound());
-                    timer.setRepeats(false);
-                    timer.start();
+                    startNewRound();
                 }
                 break;
             }
@@ -210,37 +205,35 @@ public class ShapeClickingGame extends JFrame {
             g2d.setColor(color);
             
             switch (type) {
-                case CIRCLE:
+                case CIRCLE -> {
                     g2d.fillOval(x - size/2, y - size/2, size, size);
                     g2d.setColor(Color.BLACK);
                     g2d.drawOval(x - size/2, y - size/2, size, size);
-                    break;
+                }
                     
-                case SQUARE:
+                case SQUARE -> {
                     g2d.fillRect(x - size/2, y - size/2, size, size);
                     g2d.setColor(Color.BLACK);
                     g2d.drawRect(x - size/2, y - size/2, size, size);
-                    break;
+                }
                     
-                case TRIANGLE:
+                case TRIANGLE -> {
                     int[] xPoints = {x, x - size/2, x + size/2};
                     int[] yPoints = {y - size/2, y + size/2, y + size/2};
                     g2d.fillPolygon(xPoints, yPoints, 3);
                     g2d.setColor(Color.BLACK);
                     g2d.drawPolygon(xPoints, yPoints, 3);
-                    break;
+                }
                     
-                case DIAMOND:
+                case DIAMOND -> {
                     int[] xDiamond = {x, x - size/2, x, x + size/2};
                     int[] yDiamond = {y - size/2, y, y + size/2, y};
                     g2d.fillPolygon(xDiamond, yDiamond, 4);
                     g2d.setColor(Color.BLACK);
                     g2d.drawPolygon(xDiamond, yDiamond, 4);
-                    break;
+                }
                     
-                case STAR:
-                    drawStar(g2d, x, y, size/2, size/4, 5);
-                    break;
+                case STAR -> drawStar(g2d, x, y, size/2, size/4, 5);
             }
         }
         
@@ -273,7 +266,6 @@ public class ShapeClickingGame extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
             new ShapeClickingGame().setVisible(true);
         });
     }
