@@ -159,6 +159,10 @@ public class ShapeClickingGame extends JFrame {
                     shape.color = Color.RED;
                     gamePanel.repaint();
                     round++;
+                    if (round >= TOTAL_ROUNDS) {
+                        endGame();
+                        return;
+                    }
                     startNewRound();
                 }
                 break;
